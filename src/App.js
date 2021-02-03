@@ -15,7 +15,8 @@ class App extends Component {
     super(props);
 
     this.state = {
-      result: null,
+      results: null,
+      searchKey: '',
       searchTerm: DEFAULT_QUERY
     }
 
@@ -24,6 +25,7 @@ class App extends Component {
     this.onSearchChange = this.onSearchChange.bind(this);
     this.setSearchTopStories = this.setSearchTopStories.bind(this);
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
+    this.needsToSearchTopStories = this.needsToSearchTopStories.bind(this);
   }
 
   fetchSearchTopStories(searchTerm, page = 0) {
@@ -34,12 +36,16 @@ class App extends Component {
   }
 
   onDismiss(id) {
+    const { searchKey, results } = this.state;
+    const { hits, page } = results[searchKey];
+
     const isNotId = item => item.objectID !== id;
-    const updatedHits = this.state.result.hits.filter(isNotId);
+    const updatedHits = hits.filter(isNotId);
+
     this.setState({
-      result: {
-        ...this.state.result,
-        hits: updatedHits
+      results: {
+        ...results,
+        [searchKey]: { hits: updatedHits, page }
       }
     })
   }
@@ -50,30 +56,48 @@ class App extends Component {
     })
   }
 
-  onSearchSubmit(event) {
-    const { searchTerm } = this.state
-    this.fetchSearchTopStories(searchTerm)
-    event.preventDefault();
+  needsToSearchTopStories(searchTerm) {
+    return !this.state.results[searchTerm]
   }
 
   setSearchTopStories(result) {
     const { hits, page } = result;
-    const oldHits = page !== 0 ? this.state.result.hits : [];
+    const { searchKey, results } = this.state;
+
+    const oldHits = results && results[searchKey]
+      ? results[searchKey].hits : [];
+
     const updatedHits = [...oldHits, ...hits];
     this.setState({
-      result: { hits: updatedHits, page }
+      results: {
+        ...results,
+        [searchKey]: { hits: updatedHits, page }
+      }
     });
   }
 
   componentDidMount() {
     const { searchTerm } = this.state;
+    this.setState({ searchKey: searchTerm });
     this.fetchSearchTopStories(searchTerm)
+  }
+
+  onSearchSubmit(event) {
+    const { searchTerm } = this.state
+    this.setState({ searchKey: searchTerm });
+
+    if (this.needsToSearchTopStories(searchTerm)) {
+      this.fetchSearchTopStories(searchTerm)
+    }
+
+    event.preventDefault();
   }
 
   //  вызывается каждый раз при изменении состояния компонента
   render() {
-    const { result, searchTerm } = this.state;
-    const page = (result && result.page) || 0;
+    const { searchKey, results, searchTerm } = this.state;
+    const page = (results && results[searchKey] && results[searchKey].page) || 0;
+    const list = (results && results[searchKey] && results[searchKey].hits) || [];
 
     // if (!result) {
     //   return null;
@@ -83,10 +107,9 @@ class App extends Component {
       <div className='page'>
         <div className='interactions'>
           <Search value={searchTerm} onChange={this.onSearchChange} onSubmit={this.onSearchSubmit}>Поиск</ Search>
-          {console.log(result)}
-          {result && <Table list={result.hits} onDismiss={this.onDismiss} />}
+          <Table list={list} onDismiss={this.onDismiss} />
           <Button className='interactions' onClick={() => {
-            this.fetchSearchTopStories(searchTerm, page + 1)
+            this.fetchSearchTopStories(searchKey, page + 1)
           }}>
             Больше историй
             </Button>
