@@ -17,7 +17,8 @@ class App extends Component {
     this.state = {
       results: null,
       searchKey: '',
-      searchTerm: DEFAULT_QUERY
+      searchTerm: DEFAULT_QUERY,
+      error: null
     }
 
     this.fetchSearchTopStories = this.fetchSearchTopStories.bind(this);
@@ -32,7 +33,7 @@ class App extends Component {
     fetch(`${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${searchTerm}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`)
       .then(response => response.json())
       .then(result => this.setSearchTopStories(result))
-      .catch(error => error)
+      .catch(error => this.setState({ error }));
   }
 
   onDismiss(id) {
@@ -95,24 +96,31 @@ class App extends Component {
 
   //  вызывается каждый раз при изменении состояния компонента
   render() {
-    const { searchKey, results, searchTerm } = this.state;
+    const { searchKey, results, searchTerm, error } = this.state;
     const page = (results && results[searchKey] && results[searchKey].page) || 0;
     const list = (results && results[searchKey] && results[searchKey].hits) || [];
 
-    // if (!result) {
-    //   return null;
+    // if (error) {
+    //   return <p>Что-то произошло не так.</p>;
     // }
 
     return (
       <div className='page'>
         <div className='interactions'>
           <Search value={searchTerm} onChange={this.onSearchChange} onSubmit={this.onSearchSubmit}>Поиск</ Search>
-          <Table list={list} onDismiss={this.onDismiss} />
-          <Button className='interactions' onClick={() => {
+        </div>
+        {error ?
+          <div className='interactions'>
+            <p>Что-то произошло не так.</p>
+          </div>
+          : <Table list={list} onDismiss={this.onDismiss} />}
+
+        <div className='interactions'>
+          <Button onClick={() => {
             this.fetchSearchTopStories(searchKey, page + 1)
           }}>
             Больше историй
-            </Button>
+        </Button>
         </div>
       </div>
     );
