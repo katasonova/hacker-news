@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App It is a corrrect snapshot 1`] = `
+<div
+  className="page"
+>
+  <div
+    className="interactions"
+  >
+    <form
+      onSubmit={[Function]}
+    >
+      <input
+        onChange={[Function]}
+        type="text"
+        value="redux"
+      />
+      <button
+        type="submit"
+      >
+        Поиск
+      </button>
+    </form>
+  </div>
+  <div
+    className="table"
+  />
+  <div
+    className="interactions"
+  >
+    <button
+      className=""
+      onClick={[Function]}
+      type="button"
+    >
+      Больше историй
+    </button>
+  </div>
+</div>
+`;
+
+exports[`Button It is a corrrect snapshot 1`] = `
+<button
+  className=""
+  type="button"
+>
+  Больше историй
+</button>
+`;
+
+exports[`Search It is a corrrect snapshot 1`] = `
+<form>
+  <input
+    type="text"
+  />
+  <button
+    type="submit"
+  >
+    Поиск
+  </button>
+</form>
+`;
+
+exports[`Table It is a corrrect snapshot 1`] = `
+<div
+  className="table"
+>
+  <div
+    className="table-row"
+  >
+    <span
+      className="largeColumn"
+    >
+      <a>
+        1
+      </a>
+    </span>
+    <span
+      className="midColumn"
+    >
+      1
+    </span>
+    <span
+      className="smallColumn"
+    >
+      1
+    </span>
+    <span
+      className="smallColumn"
+    >
+      2
+    </span>
+    <button
+      className="button-inline smallColumn"
+      onClick={[Function]}
+      type="button"
+    >
+      Отбросить
+    </button>
+  </div>
+  <div
+    className="table-row"
+  >
+    <span
+      className="largeColumn"
+    >
+      <a>
+        2
+      </a>
+    </span>
+    <span
+      className="midColumn"
+    >
+      2
+    </span>
+    <span
+      className="smallColumn"
+    >
+      1
+    </span>
+    <span
+      className="smallColumn"
+    >
+      2
+    </span>
+    <button
+      className="button-inline smallColumn"
+      onClick={[Function]}
+      type="button"
+    >
+      Отбросить
+    </button>
+  </div>
+</div>
+`;
