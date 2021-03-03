@@ -11,10 +11,6 @@ const PARAM_SEARCH = 'query=';
 const PARAM_PAGE = 'page=';
 const PARAM_HPP = 'hitsPerPage=';
 
-const Loading = () =>
-  <div>Загрузка ...</div>
-
-
 class App extends Component {
   _isMounted = false;
 
@@ -130,14 +126,12 @@ class App extends Component {
           : <Table list={list} onDismiss={this.onDismiss} />}
 
         <div className='interactions'>
-          {isLoading ?
-            <Loading /> :
-            <Button onClick={() => {
+          <ButtonWithLoading isLoading={isLoading}
+            onClick={() => {
               this.fetchSearchTopStories(searchKey, page + 1)
-            }}>
+            }}>>
               Больше историй
-            </Button>
-          }
+        </ButtonWithLoading>
 
         </div>
       </div>
@@ -188,6 +182,13 @@ const Button = ({ onClick, className, children }) =>
   <button onClick={onClick} className={className} type='button'>
     {children}
   </button>
+
+const Loading = () =>
+  <div>Загрузка ...</div>
+
+const withLoading = (Component) => ({ isLoading, ...rest }) => isLoading ? <Loading /> : <Component {...rest} />
+
+const ButtonWithLoading = withLoading(Button)
 
 Button.defaultProps = {
   className: '',

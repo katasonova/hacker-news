@@ -28,13 +28,9 @@ exports[`App It is a corrrect snapshot 1`] = `
   <div
     className="interactions"
   >
-    <button
-      className=""
-      onClick={[Function]}
-      type="button"
-    >
-      Больше историй
-    </button>
+    <div>
+      Загрузка ...
+    </div>
   </div>
 </div>
 `;
