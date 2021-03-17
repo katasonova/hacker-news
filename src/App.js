@@ -132,12 +132,12 @@ class App extends Component {
     return (
       <div className='page'>
         <div className='interactions'>
-          <Search value={searchTerm} onChange={this.onSearchChange} onSubmit={this.onSearchSubmit}>Поиск</ Search>
+          <Search value={searchTerm} onChange={this.onSearchChange} onSubmit={this.onSearchSubmit}>Search</ Search>
         </div>
         {error
           ?
           <div className='interactions'>
-            <p>Что-то произошло не так.</p>
+            <p>Something is wrong.</p>
           </div>
           : <Table list={list} onDismiss={this.onDismiss} />
         }
@@ -147,7 +147,7 @@ class App extends Component {
             onClick={() => {
               this.fetchSearchTopStories(searchKey, page + 1)
             }}>
-            Больше историй
+            More
         </ButtonWithLoading>
 
         </div>
@@ -203,26 +203,26 @@ class Table extends Component {
         <div className='table-header'>
           <span style={{ width: '40%' }}>
             <Sort sortKey='TITLE' onSort={this.onSort} activeSortKey={sortKey} >
-              Заголовок
+              Title
           </Sort>
           </span>
           <span style={{ width: '30%' }}>
             <Sort sortKey='AUTHOR' onSort={this.onSort} activeSortKey={sortKey} >
-              Автор
+              Author
           </Sort>
           </span>
           <span style={{ width: '10%' }}>
             <Sort sortKey='COMMENTS' onSort={this.onSort} activeSortKey={sortKey} >
-              Комментарии
+              Comments
           </Sort>
           </span>
           <span style={{ width: '10%' }}>
             <Sort sortKey='POINTS' onSort={this.onSort} activeSortKey={sortKey} >
-              Очки
+              Points
           </Sort>
           </span>
           <span style={{ width: '10%' }}>
-            Архив
+            Archive
         </span>
         </div>
         {
@@ -236,7 +236,7 @@ class Table extends Component {
               <span className='smallColumn'>{item.points}</span>
               <Button onClick={() => onDismiss(item.objectID)}
                 className='button-inline smallColumn'>
-                Отбросить
+                Delete
           </Button>
             </div>
           )
@@ -253,7 +253,7 @@ const Button = ({ onClick, className, children }) =>
   </button>
 
 const Loading = () =>
-  <div>Загрузка ...</div>
+  <div>Loading ...</div>
 
 const Sort = ({ sortKey, activeSortKey, onSort, children }) => {
   const sortClass = classNames('button-inline', { 'button-active': sortKey === activeSortKey })
